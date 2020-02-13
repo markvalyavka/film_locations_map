@@ -53,7 +53,6 @@ def find_closest_films(year, location):
     film_dict = get_film_year_and_location(read_file())
     closest_film_lst = []
     geolocator = geopy.Nominatim(user_agent="myGeolocator", timeout=10)
-    x = 49.83826, 24.02324
 
 
     if year in film_dict:
@@ -67,9 +66,39 @@ def find_closest_films(year, location):
             except:
                 continue
 
-    closest_film_lst.sort(key = lambda elm: abs(elm[1][0]-x[0])+abs(elm[1][1]-x[1]))
+    closest_film_lst.sort(key = lambda elm: abs(elm[1][0]-location[0])+abs(elm[1][1]-location[1]))
     closest_film_set = set(closest_film_lst[0:10])
 
     return closest_film_set
-print(find_closest_films(2000, 'a'))
+
+def create_map(closest_film_set, location):
+    """ (set) -> (None)
+
+    Function to create .html file with map of 10 closest
+    films to user location.
+    """
+
+    map = folium.Map(location=location)
+    map.add_child(folium.Marker(location=list(location),
+                                popup="YOU",
+                                icon=folium.Icon()))
+    while closest_film_set:
+
+        film = closest_film_set.pop()
+        map.add_child(folium.Marker(location= [film[1][0], film[1][1]],
+                                    popup = film[0],
+                                    icon = folium.Icon()))
+
+    map.save('map.html')
+
+
+
+
+if __name__ == "__main__":
+
+    film_year = int(input("Please enter a year you would like to have a map for: "))
+    location_coordinates = (input("Please enter your location (format: lat, long): "))
+    location_coordinates = tuple([float(coord.strip()) for coord in location_coordinates.split(",")])
+
+    create_map(find_closest_films(film_year, location_coordinates), location_coordinates)
 
