@@ -54,7 +54,8 @@ def find_closest_films(year, location):
     geolocator = geopy.Nominatim(user_agent="myGeolocator", timeout=10)
 
     if year in film_dict:
-        while film_dict[year] and len(closest_film_lst) < 100:
+
+        while film_dict[year] and len(closest_film_lst) < 50:
             try:
                 film = film_dict[year].pop()
                 film_loc_obj = geolocator.geocode(film[1])
