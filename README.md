@@ -4,7 +4,7 @@ A map that shows 10 closest film shooting spots around your location.
 
 The overall film pool is ~250,000 films and locations.
 This data is first filtered by year input, and then by distance to input location. (10 closest are taken)
-The real location in coordinated is calculate only for 50 films, for speed purposes.
+The real location in coordinates is calculated only for 50 films, for speed purposes.
 Nevertheless, the locations are pretty accurate, although different each time.
 
 /* map_{year}.html file structure */
